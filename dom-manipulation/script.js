@@ -16,6 +16,31 @@ let quotes = [
     {randomQuote.category}`;
   }
   
+  // Function to create the form for adding a new quote
+  function createAddQuoteForm() {
+    const formDiv = document.createElement('div');
+  
+    const inputText = document.createElement('input');
+    inputText.id = 'newQuoteText';
+    inputText.type = 'text';
+    inputText.placeholder = 'Enter a new quote';
+    formDiv.appendChild(inputText);
+  
+    const inputCategory = document.createElement('input');
+    inputCategory.id = 'newQuoteCategory';
+    inputCategory.type = 'text';
+    inputCategory.placeholder = 'Enter quote category';
+    formDiv.appendChild(inputCategory);
+  
+    const addButton = document.createElement('button');
+    addButton.id = 'addQuoteButton';
+    addButton.textContent = 'Add Quote';
+    addButton.onclick = addQuote;
+    formDiv.appendChild(addButton);
+  
+    document.body.appendChild(formDiv);
+  }
+  
   // Function to add a new quote
   function addQuote() {
     const newQuoteText = document.getElementById('newQuoteText').value;
@@ -35,5 +60,5 @@ let quotes = [
   // Event listener for the 'Show New Quote' button
   document.getElementById('newQuote').addEventListener('click', showRandomQuote);
   
-  // Event listener for the 'Add Quote' button
-  document.getElementById('addQuoteButton').addEventListener('click', addQuote);
+  // Call the function to create the form when the script is loaded
+  createAddQuoteForm();
