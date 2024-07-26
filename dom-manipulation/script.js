@@ -37,3 +37,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Call the function to populate the categories when the script is loaded
 populateCategories();
+// Server simulation URL
+const serverUrl = 'https://jsonplaceholder.typicode.com/posts';
+
+// Function to sync local quotes with the server
+async function syncWithServer() {
+    try {
+        const response = await fetch(serverUrl);
+        const serverQuotes = await response.json();
+
+        const localQuotes = JSON.parse(localStorage.getItem('quotes')) || [];
+        const updatedQuotes = mergeQuotes(localQuotes, serverQuotes);
+
+        quotes = updatedQuotes;
+        saveQuotes();
+        populateCategories();
+        filterQuotes();
+    } catch (error) {
+        console.error('Error syncing with server:', error);
+    }
+}
+
+// Function to merge local and server quotes
+function mergeQuotes(localQuotes, serverQuotes) {
+    const mergedQuotes = [...localQuotes];
+
+    serverQuotes.forEach(serverQuote => {
+        if (!localQuotes.find(localQuote => localQuote.text === serverQuote.text)) {
+            mergedQuotes.push(serverQuote);
+        }
+    });
+
+    return mergedQuotes;
+}
+
+// Periodically sync with the server every 30 seconds
+setInterval(syncWithServer, 30000);
+
+// Call syncWithServer when the script is loaded
+syncWithServer();
