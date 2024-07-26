@@ -11,7 +11,7 @@ let quotes = [
     const quoteDisplay = document.getElementById('quoteDisplay');
     const randomIndex = Math.floor(Math.random() * quotes.length);
     const randomQuote = quotes[randomIndex];
-    quoteDisplay.innerText = `"$
+    quoteDisplay.innerHTML = `"$
     {randomQuote.text}" - $
     {randomQuote.category}`;
   }
@@ -25,6 +25,7 @@ let quotes = [
       quotes.push({ text: newQuoteText, category: newQuoteCategory });
       document.getElementById('newQuoteText').value = '';
       document.getElementById('newQuoteCategory').value = '';
+      showRandomQuote(); // Optionally show the newly added quote
       alert('New quote added!');
     } else {
       alert('Please enter both quote text and category.');
