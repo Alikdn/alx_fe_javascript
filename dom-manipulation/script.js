@@ -37,6 +37,7 @@ async function syncQuotes() {
   
   const mergedQuotes = mergeQuotes(localQuotes, serverQuotes);
   quotes = mergedQuotes;
+  localStorage.setItem('quotes', JSON.stringify(quotes)); // Update local storage with merged quotes
   saveQuotes();
   populateCategories();
   filterQuotes();
@@ -44,6 +45,8 @@ async function syncQuotes() {
   // Post any new quotes to the server
   const newQuotes = localQuotes.filter(localQuote => !serverQuotes.find(serverQuote => serverQuote.text === localQuote.text));
   await postQuotesToServer(newQuotes);
+  
+  notifyUser('Quotes have been synced with the server.'); // Notify user after syncing
 }
 
 // Function to merge local and server quotes
@@ -79,7 +82,6 @@ function notifyUser(message) {
 // Periodically sync with the server every 30 seconds
 setInterval(async () => {
   await syncQuotes();
-  notifyUser('Quotes have been synced with the server.');
 }, 30000);
 
 // Initial sync when the script is loaded
